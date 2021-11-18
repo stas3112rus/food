@@ -171,7 +171,6 @@ window.addEventListener("DOMContentLoaded", () => {
       hours.innerHTML = addZero(t.hour);
       minutes.innerHTML = addZero(t.minutes);
       seconds.innerHTML = addZero(t.seconds);
-      console.log(t.t);
 
       if (t.t <= 0) {
         clearInterval(timeInterval);
@@ -183,7 +182,36 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  setClock(".timer", deadline);
+  setClock(".timer", deadline); // Modal window
+
+  const openModalWindow = document.querySelectorAll("button[data-modal]"),
+        closeModalWindow = document.querySelectorAll("div[data-close]"),
+        modal = document.querySelector(".modal");
+
+  function closeModal() {
+    modal.style.display = "none";
+    document.body.style.overflow = "visible";
+  }
+
+  openModalWindow.forEach(value => {
+    value.addEventListener("click", () => {
+      modal.style.display = "block";
+      document.body.style.overflow = "hidden";
+    });
+  });
+  closeModalWindow.forEach(value => {
+    value.addEventListener("click", closeModal);
+  });
+  modal.addEventListener("click", e => {
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
+  document.addEventListener("keydown", e => {
+    if (e.code === "Escape" && window.getComputedStyle(modal).display == "block") {
+      closeModal();
+    }
+  });
 });
 
 /***/ })
